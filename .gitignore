@@ -1,0 +1,22 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Backups e rascunhos — nunca commitar
+*.zip
+*backup*
+*draft*
+*rascunho*
+*copia*
+*copy*
+*old*
+
+# Vercel CLI
+.vercel/
