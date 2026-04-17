@@ -143,13 +143,13 @@ body.c-hover #cursor .dot{ width:4px; height:4px; opacity:.3; }
 /* ══════════════════════════════════════════════════════
    NAV
 ══════════════════════════════════════════════════════ */
-nav{
+#nav{
   position:fixed; top:0; left:0; right:0; z-index:1000;
   display:flex; align-items:center; justify-content:space-between;
   padding:22px var(--px);
   transition:background .5s, padding .4s, border-color .5s;
 }
-nav.scrolled{
+#nav.scrolled{
   background:rgba(26,26,24,.93); backdrop-filter:blur(24px);
   padding:14px var(--px); border-bottom:1px solid rgba(154,123,79,.14);
 }
@@ -830,8 +830,8 @@ footer{
   .map-inner{ grid-template-columns:1fr; }
 }
 @media(max-width:900px){
-  nav{ padding:18px var(--px); gap:10px; }
-  nav.scrolled{ padding:14px var(--px); }
+  #nav{ padding:18px var(--px); gap:10px; }
+  #nav.scrolled{ padding:14px var(--px); }
   .nav-links{ display:flex; gap:16px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; flex-shrink:1; min-width:0; }
   .nav-links::-webkit-scrollbar{ display:none; }
   .nav-links a{ font-size:10px; letter-spacing:.12em; white-space:nowrap; }
