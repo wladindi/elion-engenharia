@@ -386,7 +386,8 @@ nav.scrolled{
 .s-body p+p{ margin-top:18px; }
 .hr{ width:56px; height:1px; background:var(--bronze); margin:32px 0; }
 .mw{ max-width:1400px; margin:0 auto; }
-.section-wrap{ padding:var(--gap) var(--px); }
+.section-wrap{ padding:var(--gap) var(--px); scroll-margin-top:80px; }
+.hero{ scroll-margin-top:0; }
 
 /* ══════════════════════════════════════════════════════
    ABOUT
@@ -1771,8 +1772,17 @@ document.getElementById('cform').addEventListener('submit',function(e){
 /* ── SMOOTH ANCHORS ── */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
-    const t=document.querySelector(a.getAttribute('href'));
-    if(t){ e.preventDefault(); t.scrollIntoView({behavior:'smooth'}); }
+    const href=a.getAttribute('href');
+    if(!href||href==='#') return;
+    const t=document.querySelector(href);
+    if(t){
+      e.preventDefault();
+      const navH=document.getElementById('nav').offsetHeight;
+      const top=t.getBoundingClientRect().top+window.scrollY-navH;
+      window.scrollTo({top,behavior:'smooth'});
+      /* fecha menu mobile se estiver aberto */
+      if(typeof closeMob==='function') closeMob();
+    }
   });
 });
 </script>
