@@ -896,6 +896,50 @@ footer{
   z-index:999999; text-decoration:none;
 }
 .skip-link:focus{ top:0; }
+
+/* ══════════════════════════════════════════════════════
+   MOBILE READABILITY — melhor contraste e legibilidade
+══════════════════════════════════════════════════════ */
+@media(max-width:900px){
+  /* Nav */
+  .nav-links a{ color:rgba(245,241,234,.85); font-size:11px; }
+
+  /* Hero */
+  .hero-desc{ color:rgba(245,241,234,.82); font-size:14px; }
+  .hero-eyebrow{ color:rgba(245,241,234,.6); }
+  .hero-scroll span{ color:rgba(245,241,234,.55); }
+
+  /* Seções — corpo de texto */
+  .s-body{ color:rgba(245,241,234,.78); font-size:15px; }
+  .s-label{ color:rgba(245,241,234,.72); }
+
+  /* About */
+  .about-quote{ color:rgba(245,241,234,.45); }
+  .founder-co{ color:rgba(245,241,234,.65); }
+  .founder-exp{ color:rgba(245,241,234,.6); font-size:11px; }
+
+  /* Equipe */
+  .team-co{ color:rgba(245,241,234,.72); }
+  .team-exp{
+    opacity:1; transform:translateY(0);
+    color:rgba(245,241,234,.65); font-size:11px;
+  }
+
+  /* Projetos — sempre visível no mobile (sem hover) */
+  .proj-body{ transform:translateY(0) !important; }
+  .proj-tag{ opacity:1; transform:translateY(0); color:var(--bronze-l); }
+  .proj-name{ font-size:20px; }
+  .proj-meta{ color:rgba(245,241,234,.72); }
+  .proj-link{ opacity:1; transform:translateY(0); }
+
+  /* Pilares / Valores */
+  .pilar-body{ opacity:1; }
+  .val-body{ color:rgba(245,241,234,.78); font-size:15px; }
+
+  /* Footer */
+  .ft-copy{ color:rgba(245,241,234,.45); }
+}
+
 </style>
 <script type="application/ld+json">
 {
