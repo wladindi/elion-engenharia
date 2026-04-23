@@ -76,9 +76,11 @@ body::before{
   opacity:0; transform:scale(.92) translateY(16px);
   animation:preIn 1.2s .15s cubic-bezier(.23,1,.32,1) forwards;
 }
-.pre-logo-img svg{
-  width:clamp(240px,30vw,360px); height:auto; display:block;
-  animation:gleam 3s 1.6s ease-in-out infinite;
+.pre-logo-img img{
+  width:clamp(280px,36vw,440px); height:auto; display:block;
+  mix-blend-mode:screen;
+  filter:sepia(0.65) saturate(1.6) brightness(1.15);
+  animation:gleam 3.5s 2s ease-in-out infinite;
 }
 .pre-tagline{
   font-size:9px; letter-spacing:.45em; text-transform:uppercase;
@@ -919,13 +921,7 @@ footer{
 <!-- ══ PRELOADER ══ -->
 <div id="preloader">
   <div class="pre-logo-img">
-    <svg viewBox="0 0 340 150" xmlns="http://www.w3.org/2000/svg" aria-label="Elion Engenharia">
-      <line x1="50" y1="38" x2="290" y2="38" stroke="#9A7B4F" stroke-width="0.5" opacity="0.7"/>
-      <polygon points="170,28 175,38 170,48 165,38" fill="#C4A06A" opacity="0.9"/>
-      <text x="170" y="98" text-anchor="middle" font-family="Cormorant Garamond, serif" font-size="68" font-weight="300" fill="#F5F1EA" letter-spacing="14">ELION</text>
-      <line x1="50" y1="114" x2="290" y2="114" stroke="#9A7B4F" stroke-width="0.5" opacity="0.7"/>
-      <text x="170" y="136" text-anchor="middle" font-family="Montserrat, sans-serif" font-size="9" font-weight="400" fill="#9A7B4F" letter-spacing="9">ENGENHARIA</text>
-    </svg>
+    <img src="images/logo-elion.png" alt="Elion Engenharia e Construção">
   </div>
   <div class="pre-tagline">Engenharia &amp; Construção · São Paulo</div>
   <div class="pre-prog-wrap">
@@ -1540,7 +1536,7 @@ footer{
   const pre=document.getElementById('preloader');
   const fill=document.getElementById('pre-fill');
   const ctr=document.getElementById('pre-ctr');
-  const total=1400, start=Date.now();
+  const total=3200, start=Date.now();
   function tick(){
     const p=Math.min(100,Math.round((Date.now()-start)/total*100));
     fill.style.width=p+'%'; ctr.textContent=p+'%';
@@ -1550,7 +1546,7 @@ footer{
         pre.classList.add('open');
         document.body.classList.remove('loading');
         setTimeout(()=>pre.classList.add('hidden'),1100);
-      },200);
+      },500);
     }
   }
   requestAnimationFrame(tick);
