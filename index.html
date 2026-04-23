@@ -73,20 +73,19 @@ body::before{
 }
 #preloader.hidden{ opacity:0; visibility:hidden; pointer-events:none; }
 .pre-logo-img{
-  opacity:0; transform:scale(.92) translateY(16px);
-  animation:preIn 1.2s .15s cubic-bezier(.23,1,.32,1) forwards;
+  opacity:0; transform:scale(.95) translateY(10px);
+  animation:preIn .65s .05s cubic-bezier(.23,1,.32,1) forwards;
 }
 .pre-logo-img img{
   width:clamp(280px,36vw,440px); height:auto; display:block;
   mix-blend-mode:screen;
   filter:sepia(0.65) saturate(1.6) brightness(1.15);
-  animation:gleam 3.5s 2s ease-in-out infinite;
 }
 .pre-tagline{
   font-size:9px; letter-spacing:.45em; text-transform:uppercase;
   font-family:'Montserrat',sans-serif;
   color:rgba(154,123,79,.55); margin-top:22px;
-  opacity:0; animation:fadeIn .8s 1.3s forwards;
+  opacity:0; animation:fadeIn .5s .7s forwards;
 }
 .pre-prog-wrap{
   position:absolute; bottom:52px; left:50%; transform:translateX(-50%); width:180px;
@@ -1536,7 +1535,7 @@ footer{
   const pre=document.getElementById('preloader');
   const fill=document.getElementById('pre-fill');
   const ctr=document.getElementById('pre-ctr');
-  const total=3200, start=Date.now();
+  const total=1600, start=Date.now();
   function tick(){
     const p=Math.min(100,Math.round((Date.now()-start)/total*100));
     fill.style.width=p+'%'; ctr.textContent=p+'%';
@@ -1546,7 +1545,7 @@ footer{
         pre.classList.add('open');
         document.body.classList.remove('loading');
         setTimeout(()=>pre.classList.add('hidden'),1100);
-      },500);
+      },150);
     }
   }
   requestAnimationFrame(tick);
