@@ -898,48 +898,60 @@ footer{
 .skip-link:focus{ top:0; }
 
 /* ══════════════════════════════════════════════════════
-   MOBILE READABILITY — melhor contraste e legibilidade
+   MOBILE READABILITY — contraste e legibilidade aprimorados
 ══════════════════════════════════════════════════════ */
 @media(max-width:900px){
   /* Nav */
-  .nav-links a{ color:rgba(245,241,234,.85); font-size:11px; }
+  .nav-links a{ color:rgba(245,241,234,.9); font-size:11px; }
 
   /* Hero */
-  .hero-desc{ color:rgba(245,241,234,.82); font-size:14px; }
-  .hero-eyebrow{ color:rgba(245,241,234,.6); }
-  .hero-scroll span{ color:rgba(245,241,234,.55); }
+  .hero-desc{ color:rgba(245,241,234,.88); font-size:14px; }
+  .hero-eyebrow{ color:rgba(245,241,234,.7); }
+  .hero-scroll span{ color:rgba(245,241,234,.65); }
 
   /* Seções — corpo de texto */
-  .s-body{ color:rgba(245,241,234,.78); font-size:15px; }
-  .s-label{ color:rgba(245,241,234,.72); }
+  .s-body{ color:rgba(245,241,234,.85); font-size:15px; }
+  .s-label{ color:rgba(245,241,234,.78); }
 
   /* About */
-  .about-quote{ color:rgba(245,241,234,.45); }
-  .founder-co{ color:rgba(245,241,234,.65); }
-  .founder-exp{ color:rgba(245,241,234,.6); font-size:11px; }
+  .about-quote{ color:rgba(245,241,234,.5); }
+  .founder-co{ color:rgba(245,241,234,.72); }
+  .founder-exp{ color:rgba(245,241,234,.68); font-size:11px; }
 
   /* Equipe */
-  .team-co{ color:rgba(245,241,234,.72); }
+  .team-co{ color:rgba(245,241,234,.78); }
   .team-exp{
     opacity:1; transform:translateY(0);
-    color:rgba(245,241,234,.65); font-size:11px;
+    color:rgba(245,241,234,.72); font-size:11px;
   }
 
-  /* Projetos — sempre visível no mobile (sem hover) */
+  /* Projetos — sempre visível no mobile */
   .proj-body{ transform:translateY(0) !important; }
   .proj-tag{ opacity:1; transform:translateY(0); color:var(--bronze-l); }
   .proj-name{ font-size:20px; }
-  .proj-meta{ color:rgba(245,241,234,.72); }
+  .proj-meta{ color:rgba(245,241,234,.78); }
   .proj-link{ opacity:1; transform:translateY(0); }
 
-  /* Pilares / Valores */
+  /* Pilares */
+  .pilar-sub{ color:rgba(245,241,234,.78); font-size:13px; }
   .pilar-body{ opacity:1; }
-  .val-body{ color:rgba(245,241,234,.78); font-size:15px; }
+
+  /* Valores — forçar visível + contraste */
+  .val-item{
+    opacity:1 !important;
+    transform:translateX(0) !important;
+  }
+  .val-text p{ color:rgba(245,241,234,.82); font-size:14px; }
+  .val-text h4{ font-size:19px; }
+  .val-ico svg{ opacity:.55; }
+
+  /* Mapa / Contato */
+  .map-addr-text{ color:rgba(245,241,234,.82); font-size:14px; }
+  .map-frame-label span{ color:rgba(245,241,234,.72); }
 
   /* Footer */
-  .ft-copy{ color:rgba(245,241,234,.45); }
+  .ft-copy{ color:rgba(245,241,234,.5); }
 }
-
 </style>
 <script type="application/ld+json">
 {
