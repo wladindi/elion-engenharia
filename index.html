@@ -1818,7 +1818,7 @@ if(mt){
 /* ── VIDEO GALLERY ── */
 (function(){
   const items = document.querySelectorAll('.gal-item');
-  const mobile = () => window.innerWidth <= 900;
+  const isMobile = () => window.innerWidth <= 900;
 
   function tryPlay(vid){
     vid.muted = true;
@@ -1826,27 +1826,22 @@ if(mt){
     if (vid.readyState === 0) vid.load();
     const p = vid.play();
     if (p && p.catch) p.catch(() => {
-      setTimeout(() => {
-        vid.muted = true;
-        vid.play().catch(() => {});
-      }, 200);
+      setTimeout(() => { vid.muted = true; vid.play().catch(()=>{}); }, 200);
     });
   }
 
-  /* Desktop: mouseenter → play imediato, mouseleave → pause + volta ao início */
+  /* Desktop: mouseenter → play, mouseleave → pause */
   items.forEach(item => {
     const vid = item.querySelector('.gal-vid');
     if (!vid) return;
 
-    /* Pré-carrega ao passar perto (não espera clique) */
     item.addEventListener('mouseenter', () => {
-      if (mobile()) return;
+      if (isMobile()) return;
       vid.currentTime = 0;
       tryPlay(vid);
     });
-
     item.addEventListener('mouseleave', () => {
-      if (mobile()) return;
+      if (isMobile()) return;
       vid.pause();
       vid.currentTime = 0;
     });
@@ -1859,7 +1854,7 @@ if(mt){
     });
   });
 
-  /* Mobile / tablet: IntersectionObserver → autoplay no scroll */
+  /* IntersectionObserver: play ao entrar na tela */
   if ('IntersectionObserver' in window) {
     const obs = new IntersectionObserver(entries => {
       entries.forEach(entry => {
@@ -1867,13 +1862,29 @@ if(mt){
         if (!vid) return;
         if (entry.isIntersecting) {
           tryPlay(vid);
-        } else {
+        } else if (!isMobile()) {
+          /* Desktop: pausa ao sair da tela */
           vid.pause();
         }
+        /* Mobile: não pausa — deixa em loop contínuo */
       });
-    }, { threshold: 0.4 });
+    }, { threshold: 0.2 });
     items.forEach(item => obs.observe(item));
   }
+
+  /* Mobile: desbloqueio no primeiro gesto do usuário
+     (navegadores bloqueiam autoplay até a 1ª interação) */
+  let unlocked = false;
+  function unlockVideos(){
+    if (unlocked || !isMobile()) return;
+    unlocked = true;
+    items.forEach(item => {
+      const vid = item.querySelector('.gal-vid');
+      if (vid) tryPlay(vid);
+    });
+  }
+  document.addEventListener('touchstart', unlockVideos, { once:true, passive:true });
+  document.addEventListener('scroll',     unlockVideos, { once:true, passive:true });
 })();
 
 /* ── FORM ── */
