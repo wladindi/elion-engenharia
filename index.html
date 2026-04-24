@@ -898,6 +898,8 @@ footer{
   .gal-hint{ display:none; }
   .gal-label{ opacity:1 !important; transform:translateY(0) !important; }
   .gal-item:hover{ transform:none; box-shadow:none; z-index:auto; }
+  /* Vídeo visível e bem iluminado no mobile */
+  .gal-vid{ filter:brightness(.88) saturate(.95); }
 
   .val-inner{ grid-template-columns:1fr; gap:44px; }
   .val-sticky{ position:static; }
@@ -1388,7 +1390,7 @@ footer{
     <div class="gal-grid rev">
 
       <div class="gal-item">
-        <video class="gal-vid" src="videos/vid1.mp4" muted loop playsinline preload="auto"
+        <video class="gal-vid" src="videos/vid1.mp4" muted loop playsinline autoplay preload="auto"
           poster="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=900&q=80&auto=format&fit=crop"></video>
         <div class="gal-iris"></div>
         <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -1396,7 +1398,7 @@ footer{
       </div>
 
       <div class="gal-item">
-        <video class="gal-vid" src="videos/vid2.mp4" muted loop playsinline preload="auto"
+        <video class="gal-vid" src="videos/vid2.mp4" muted loop playsinline autoplay preload="auto"
           poster="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=700&q=80&auto=format&fit=crop"></video>
         <div class="gal-iris"></div>
         <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -1404,7 +1406,7 @@ footer{
       </div>
 
       <div class="gal-item">
-        <video class="gal-vid" src="videos/vid3.mp4" muted loop playsinline preload="auto"
+        <video class="gal-vid" src="videos/vid3.mp4" muted loop playsinline autoplay preload="auto"
           poster="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80&auto=format&fit=crop"></video>
         <div class="gal-iris"></div>
         <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -1412,7 +1414,7 @@ footer{
       </div>
 
       <div class="gal-item">
-        <video class="gal-vid" src="videos/vid4.mp4" muted loop playsinline preload="auto"
+        <video class="gal-vid" src="videos/vid4.mp4" muted loop playsinline autoplay preload="auto"
           poster="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=700&q=80&auto=format&fit=crop"></video>
         <div class="gal-iris"></div>
         <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -1420,7 +1422,7 @@ footer{
       </div>
 
       <div class="gal-item">
-        <video class="gal-vid" src="videos/vid5.mp4" muted loop playsinline preload="auto"
+        <video class="gal-vid" src="videos/vid5.mp4" muted loop playsinline autoplay preload="auto"
           poster="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=700&q=80&auto=format&fit=crop"></video>
         <div class="gal-iris"></div>
         <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
@@ -1820,10 +1822,14 @@ if(mt){
 
   function tryPlay(vid){
     vid.muted = true;
+    vid.setAttribute('playsinline','');
+    if (vid.readyState === 0) vid.load();
     const p = vid.play();
     if (p && p.catch) p.catch(() => {
-      /* se falhar aguarda 100ms e tenta de novo */
-      setTimeout(() => { vid.play().catch(()=>{}); }, 100);
+      setTimeout(() => {
+        vid.muted = true;
+        vid.play().catch(() => {});
+      }, 200);
     });
   }
 
