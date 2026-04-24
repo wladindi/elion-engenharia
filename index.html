@@ -179,6 +179,21 @@ body.c-hover #cursor .dot{ width:4px; height:4px; opacity:.3; }
 }
 .nav-links a:hover{ color:var(--cream); }
 .nav-links a:hover::after{ width:100%; }
+/* Hamburger button */
+.nav-ham{
+  display:none; flex-direction:column; justify-content:center; gap:5.5px;
+  background:none; border:none; cursor:pointer; padding:6px; z-index:1020;
+  flex-shrink:0;
+}
+.nav-ham span{
+  display:block; width:22px; height:1.5px; background:rgba(245,241,234,.82);
+  transition:transform .35s cubic-bezier(.23,1,.32,1), opacity .25s;
+  transform-origin:center;
+}
+#nav.nav-open .nav-ham span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+#nav.nav-open .nav-ham span:nth-child(2){ opacity:0; transform:scaleX(0); }
+#nav.nav-open .nav-ham span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
 .nav-cta{
   font-size:11px; letter-spacing:.2em; text-transform:uppercase;
   color:var(--bronze); border:1px solid rgba(154,123,79,.35);
@@ -858,10 +873,11 @@ footer{
   body{ cursor:auto; }
   #cursor{ display:none; }
 
-  .hero-content{ grid-template-columns:1fr; padding:0 var(--px) 110px; }
+  .hero-content{ grid-template-columns:1fr; padding:0 var(--px) 90px; }
   .hero-right{ align-items:flex-start; }
-  .hero-desc{ text-align:left; max-width:100%; }
+  .hero-desc{ text-align:left; max-width:100%; font-size:14px; line-height:1.8; color:rgba(245,241,234,.75); }
   .hero-stats{ display:none; }
+  .hero-cta{ flex-wrap:wrap; gap:14px; }
 
   .about-grid{ grid-template-columns:1fr; gap:44px; }
   .about-visual{ aspect-ratio:4/3; }
@@ -900,12 +916,72 @@ footer{
   .lb-btn{ width:34px; height:34px; font-size:13px; }
 }
 @media(max-width:480px){
+  /* ── Variáveis globais menores ── */
+  :root{ --px:18px; --gap:52px; }
+
+  /* ── Nav ── */
+  .nav-ham{ display:flex; }
+  .nav-logo-img img{ height:30px; }
+  #nav{ gap:0; justify-content:space-between; }
+  /* Transforma nav-links em menu dropdown */
+  .nav-links{
+    position:fixed; top:56px; left:0; right:0;
+    flex-direction:column; gap:0;
+    background:rgba(26,26,24,.97); backdrop-filter:blur(20px);
+    max-height:0; overflow:hidden;
+    transition:max-height .4s cubic-bezier(.23,1,.32,1);
+    border-bottom:1px solid rgba(154,123,79,.14);
+    padding:0; z-index:999;
+  }
+  #nav.nav-open .nav-links{ max-height:420px; padding:8px 0 20px; }
+  .nav-links li{ width:100%; }
+  .nav-links a{
+    display:block; padding:14px var(--px);
+    font-size:11px; letter-spacing:.16em;
+    color:rgba(245,241,234,.72);
+    border-bottom:1px solid rgba(154,123,79,.06);
+    white-space:nowrap;
+  }
+  .nav-links a::after{ display:none; }
+  .nav-links a:hover{ color:var(--cream); background:rgba(154,123,79,.05); }
+
+  /* ── Hero ── */
+  .hero-title{ font-size:clamp(38px,10.5vw,56px); line-height:.95; }
+  .hero-cta{ flex-direction:column; align-items:flex-start; gap:12px; }
+  .btn-p{ padding:13px 24px; font-size:10px; white-space:nowrap; }
+  .btn-g{ font-size:10px; white-space:nowrap; }
+  .hero-desc{ font-size:13px; max-width:100%; }
+  .hero-tag{ font-size:9px; letter-spacing:.2em; }
+  .hero-scroll{ display:none; }
+
+  /* ── About ── */
+  .about-visual{ aspect-ratio:16/9; }
+  .s-title{ font-size:clamp(26px,7vw,40px); }
+
+  /* ── Equipe ── */
   .team-grid{ grid-template-columns:1fr; }
-  .fg-row{ grid-template-columns:1fr; }
-  .hero-title{ font-size:clamp(44px,12vw,68px); }
+  .team-card{ aspect-ratio:3/4; }
+  .team-name{ font-size:22px; }
+
+  /* ── Projetos ── */
+  .proj-card{ aspect-ratio:4/3 !important; }
+
+  /* ── Galeria ── */
   .gal-grid{ grid-template-columns:1fr; }
-  .gal-item:nth-child(1){ grid-column:span 1; aspect-ratio:16/9; }
-  .gal-item:not(:nth-child(1)){ aspect-ratio:16/9 !important; }
+  .gal-item{ aspect-ratio:16/9 !important; }
+  .gal-item:nth-child(1){ grid-column:span 1; }
+  .gal-label{ font-size:9px; letter-spacing:.16em; padding:30px 14px 12px; }
+
+  /* ── Formulário ── */
+  .fg-row{ grid-template-columns:1fr; }
+
+  /* ── Footer ── */
+  footer{ gap:24px; padding:36px var(--px) 28px; }
+  .ft-logo img{ height:32px; }
+  .ft-copy{ font-size:10px; line-height:1.7; }
+  .ft-nav{ flex-direction:row; flex-wrap:wrap; gap:10px 20px; }
+  .ft-nav a{ font-size:10px; }
+  .ft-social a{ font-size:10px; }
 }
 .skip-link{
   position:absolute; top:-100%; left:0;
@@ -953,6 +1029,9 @@ footer{
   /* Pilares */
   .pilar-sub{ color:rgba(245,241,234,.78); font-size:13px; }
   .pilar-body{ opacity:1; }
+  .pilar-visual{ height:180px; }
+  .pilar-body{ padding:18px 20px; }
+  .pilar-footer{ padding:14px 20px; flex-wrap:wrap; gap:12px; }
 
   /* Valores — forçar visível + contraste */
   .val-item{
@@ -1028,6 +1107,9 @@ footer{
     <li><a href="#contato">Contato</a></li>
   </ul>
   <a href="#contato" class="nav-cta mag">Fale Conosco</a>
+  <button class="nav-ham" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- ══ HERO ══ -->
@@ -1797,6 +1879,24 @@ document.getElementById('cform').addEventListener('submit',function(e){
   this.reset();
 });
 
+/* ── HAMBURGER MOBILE ── */
+(function(){
+  const navEl=document.getElementById('nav');
+  const ham=document.querySelector('.nav-ham');
+  if(!ham) return;
+  ham.addEventListener('click',()=>{
+    const open=navEl.classList.toggle('nav-open');
+    ham.setAttribute('aria-expanded',String(open));
+  });
+  // Fecha ao clicar fora
+  document.addEventListener('click',e=>{
+    if(!navEl.contains(e.target)){
+      navEl.classList.remove('nav-open');
+      ham.setAttribute('aria-expanded','false');
+    }
+  });
+})();
+
 /* ── SMOOTH ANCHORS ── */
 document.querySelectorAll('a[href^="#"]').forEach(a=>{
   a.addEventListener('click',e=>{
@@ -1805,10 +1905,14 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
     const t=document.querySelector(href);
     if(t){
       e.preventDefault();
-      const navH=document.getElementById('nav').offsetHeight;
+      const navEl=document.getElementById('nav');
+      const ham=document.querySelector('.nav-ham');
+      // Fecha menu mobile
+      navEl.classList.remove('nav-open');
+      if(ham) ham.setAttribute('aria-expanded','false');
+      const navH=navEl.offsetHeight;
       const top=t.getBoundingClientRect().top+window.scrollY-navH;
       window.scrollTo({top,behavior:'smooth'});
-      /* fecha menu mobile se estiver aberto */
     }
   });
 });
