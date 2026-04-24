@@ -771,6 +771,18 @@ body.c-hover #cursor .dot{ width:4px; height:4px; opacity:.3; }
   top:-13px; font-size:9px; color:var(--bronze);
 }
 .fg-row{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+
+/* Validação — campo inválido */
+.fg.fg-error input,.fg.fg-error textarea,.fg.fg-error select{
+  border-color:rgba(210,60,60,.75) !important;
+  animation:fg-shake .38s cubic-bezier(.23,1,.32,1);
+}
+@keyframes fg-shake{
+  0%,100%{ transform:translateX(0); }
+  20%{ transform:translateX(-7px); }
+  55%{ transform:translateX(7px); }
+  80%{ transform:translateX(-3px); }
+}
 .c-submit{
   margin-top:10px; width:fit-content;
   font-size:11px; letter-spacing:.25em; text-transform:uppercase;
@@ -1890,10 +1902,47 @@ if(mt){
 /* ── FORM ── */
 document.getElementById('cform').addEventListener('submit',function(e){
   e.preventDefault();
+
+  const nome  = document.getElementById('f-nome').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const tipo  = document.getElementById('f-tipo').value;
+  const msg   = document.getElementById('f-msg').value.trim();
+
+  /* Remove erros anteriores */
+  this.querySelectorAll('.fg').forEach(fg=>fg.classList.remove('fg-error'));
+
+  /* Valida cada campo */
+  let ok = true;
+  function markError(id){
+    const fg=document.getElementById(id).closest('.fg');
+    fg.classList.remove('fg-error');
+    void fg.offsetWidth; /* reflow para re-acionar a animação */
+    fg.classList.add('fg-error');
+    ok=false;
+  }
+  if(!nome)  markError('f-nome');
+  if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) markError('f-email');
+  if(!tipo)  markError('f-tipo');
+  if(!msg)   markError('f-msg');
+
+  if(!ok) return; /* para aqui se houver campo vazio */
+
+  /* Tudo preenchido → abre WhatsApp em nova aba */
+  window.open('https://wa.link/ixryer','_blank','noopener,noreferrer');
+
+  /* Toast de confirmação + reset */
   const toast=document.getElementById('toast');
   toast.classList.add('show');
   setTimeout(()=>toast.classList.remove('show'),3500);
   this.reset();
+});
+
+/* Remove classe de erro assim que o campo for editado */
+['f-nome','f-email','f-tipo','f-msg'].forEach(id=>{
+  const el=document.getElementById(id);
+  if(!el) return;
+  el.addEventListener('input',()=>el.closest('.fg').classList.remove('fg-error'));
+  el.addEventListener('change',()=>el.closest('.fg').classList.remove('fg-error'));
 });
 
 /* ── HAMBURGER MOBILE ── */
