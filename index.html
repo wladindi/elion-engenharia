@@ -498,74 +498,77 @@ body.c-hover #cursor .dot{ width:4px; height:4px; opacity:.3; }
 .proj-card:hover .proj-link{ opacity:1; transform:translateY(0); }
 
 /* ══════════════════════════════════════════════════════
-   GALLERY
+   GALLERY — VIDEO
 ══════════════════════════════════════════════════════ */
 .gal-section{ background:linear-gradient(to bottom,var(--coal),#141412); border-top:1px solid rgba(154,123,79,.07); }
 .gal-grid{
   display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin-top:48px;
 }
 .gal-item{
-  position:relative; overflow:hidden; cursor:none; background:#1e1c17;
+  position:relative; overflow:hidden; cursor:pointer; background:#0d0d0b;
+  transition:transform .55s cubic-bezier(.23,1,.32,1), box-shadow .55s;
+  will-change:transform;
 }
 .gal-item:nth-child(1){ grid-column:span 2; grid-row:span 2; aspect-ratio:1; }
 .gal-item:not(:nth-child(1)){ aspect-ratio:4/3; }
-.gal-item img{
-  width:100%; height:100%; object-fit:cover; display:block;
-  filter:brightness(.72) saturate(.8);
-  transition:transform .7s cubic-bezier(.23,1,.32,1),filter .5s;
-}
-.gal-item:hover img{ transform:scale(1.08); filter:brightness(.88) saturate(1); }
-.gal-overlay{
-  position:absolute; inset:0; z-index:2; background:rgba(26,26,24,0);
-  display:flex; align-items:center; justify-content:center; transition:background .4s;
-}
-.gal-item:hover .gal-overlay{ background:rgba(26,26,24,.3); }
-.gal-zoom{
-  width:44px; height:44px; border:1px solid rgba(245,241,234,.45); border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  opacity:0; transform:scale(.7); transition:opacity .3s,transform .4s cubic-bezier(.23,1,.32,1);
-}
-.gal-item:hover .gal-zoom{ opacity:1; transform:scale(1); }
-.gal-zoom svg{ width:16px; height:16px; }
 
-/* Lightbox */
-#lb{
-  position:fixed; inset:0; z-index:9000;
-  background:rgba(26,26,24,.97); backdrop-filter:blur(12px);
+/* Vídeo */
+.gal-vid{
+  width:100%; height:100%; object-fit:cover; display:block;
+  filter:brightness(.5) saturate(.65);
+  transition:filter .65s ease, transform .8s cubic-bezier(.23,1,.32,1);
+}
+.gal-item:hover .gal-vid{
+  filter:brightness(.9) saturate(1.1);
+  transform:scale(1.04);
+}
+
+/* Íris — overlay escuro que se fecha no centro revelando o vídeo */
+.gal-iris{
+  position:absolute; inset:0; z-index:2;
+  background:rgba(14,13,10,.96);
+  clip-path:circle(150% at 50% 50%);
+  transition:clip-path .72s cubic-bezier(.77,0,.18,1);
+  pointer-events:none;
+}
+.gal-item:hover .gal-iris{ clip-path:circle(0% at 50% 50%); }
+
+/* Ícone de play (visível antes do hover) */
+.gal-hint{
+  position:absolute; inset:0; z-index:3;
   display:flex; align-items:center; justify-content:center;
-  opacity:0; visibility:hidden; transition:opacity .4s,visibility .4s;
+  pointer-events:none;
+  transition:opacity .3s;
 }
-#lb.on{ opacity:1; visibility:visible; }
-.lb-wrap{ max-width:90vw; max-height:88vh; position:relative; }
-.lb-wrap img{
-  max-width:90vw; max-height:80vh; object-fit:contain; display:block;
-  opacity:0; transition:opacity .4s;
+.gal-item:hover .gal-hint{ opacity:0; }
+.gal-hint-ring{
+  width:52px; height:52px; border-radius:50%;
+  border:1px solid rgba(196,160,106,.4);
+  display:flex; align-items:center; justify-content:center;
+  box-shadow:0 0 0 8px rgba(196,160,106,.06);
 }
-.lb-wrap img.ok{ opacity:1; }
-.lb-x{
-  position:absolute; top:-44px; right:0; width:36px; height:36px;
-  border:1px solid rgba(245,241,234,.18); background:none; cursor:none;
-  color:var(--cream); font-size:16px; display:flex; align-items:center; justify-content:center;
-  transition:border-color .3s,background .3s;
+.gal-hint-ring svg{ width:18px; height:18px; fill:rgba(196,160,106,.8); margin-left:4px; }
+
+/* Label inferior */
+.gal-label{
+  position:absolute; bottom:0; left:0; right:0; z-index:4;
+  padding:44px 18px 16px;
+  background:linear-gradient(transparent, rgba(10,10,8,.92));
+  font-family:'Montserrat',sans-serif;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:rgba(245,241,234,.82);
+  text-shadow:0 1px 8px rgba(0,0,0,.9);
+  opacity:0; transform:translateY(8px);
+  transition:opacity .4s ease .12s, transform .4s ease .12s;
+  pointer-events:none;
 }
-.lb-x:hover{ border-color:var(--bronze); background:rgba(154,123,79,.15); }
-.lb-btn{
-  position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px;
-  border:1px solid rgba(245,241,234,.14); background:none; cursor:none; color:var(--cream);
-  display:flex; align-items:center; justify-content:center; font-size:17px;
-  transition:border-color .3s,background .3s;
-}
-.lb-btn:hover{ border-color:var(--bronze); background:rgba(154,123,79,.15); }
-.lb-prev{ left:-66px; }
-.lb-next{ right:-66px; }
-.lb-cap{
-  position:absolute; bottom:-38px; left:0; right:0; text-align:center;
-  font-size:11px; letter-spacing:.14em; color:rgba(245,241,234,.35);
-}
-.lb-ctr{
-  position:absolute; top:-44px; left:0;
-  font-family:'Cormorant Garamond',serif; font-size:14px;
-  color:rgba(245,241,234,.3); letter-spacing:.1em;
+.gal-item:hover .gal-label{ opacity:1; transform:translateY(0); }
+
+/* Item sobe levemente ao hover */
+.gal-item:hover{
+  transform:scale(1.025);
+  box-shadow:0 20px 56px rgba(0,0,0,.72);
+  z-index:10;
 }
 
 /* ══════════════════════════════════════════════════════
@@ -874,6 +877,11 @@ footer{
 
   .gal-grid{ grid-template-columns:repeat(2,1fr); }
   .gal-item:nth-child(1){ grid-column:span 2; aspect-ratio:16/9; grid-row:span 1; }
+  /* Mobile: íris sempre aberta, label sempre visível */
+  .gal-iris{ clip-path:circle(0%) !important; transition:none !important; }
+  .gal-hint{ display:none; }
+  .gal-label{ opacity:1 !important; transform:translateY(0) !important; }
+  .gal-item:hover{ transform:none; box-shadow:none; z-index:auto; }
 
   .val-inner{ grid-template-columns:1fr; gap:44px; }
   .val-sticky{ position:static; }
@@ -896,7 +904,8 @@ footer{
   .fg-row{ grid-template-columns:1fr; }
   .hero-title{ font-size:clamp(44px,12vw,68px); }
   .gal-grid{ grid-template-columns:1fr; }
-  .gal-item:nth-child(1){ grid-column:span 1; aspect-ratio:4/3; }
+  .gal-item:nth-child(1){ grid-column:span 1; aspect-ratio:16/9; }
+  .gal-item:not(:nth-child(1)){ aspect-ratio:16/9 !important; }
 }
 .skip-link{
   position:absolute; top:-100%; left:0;
@@ -1295,37 +1304,54 @@ footer{
       <span class="line"><span class="li">em cada <em>detalhe.</em></span></span>
     </h2>
     <div class="gal-grid rev">
-      <div class="gal-item" data-src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1400&q=90&auto=format" data-cap="Interior — Sala de estar">
-        <img src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=900&q=80&auto=format&fit=crop" alt="Infraestrutura" loading="lazy">
-        <div class="gal-overlay"><div class="gal-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5l4 4M8 11h6M11 8v6"/></svg></div></div>
+
+      <div class="gal-item">
+        <video class="gal-vid" src="videos/vid1.mp4" muted loop playsinline preload="metadata"
+          poster="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=900&q=80&auto=format&fit=crop"></video>
+        <div class="gal-iris"></div>
+        <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="gal-label">Interior contemporâneo</div>
       </div>
-      <div class="gal-item" data-src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=1200&q=90&auto=format" data-cap="Fachada — Alto padrão">
-        <img src="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=700&q=80&auto=format&fit=crop" alt="Corporativo" loading="lazy">
-        <div class="gal-overlay"><div class="gal-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5l4 4M8 11h6M11 8v6"/></svg></div></div>
+
+      <div class="gal-item">
+        <video class="gal-vid" src="videos/vid2.mp4" muted loop playsinline preload="metadata"
+          poster="https://images.unsplash.com/photo-1583608205776-bfd35f0d9f83?w=700&q=80&auto=format&fit=crop"></video>
+        <div class="gal-iris"></div>
+        <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="gal-label">Fachada — Alto padrão</div>
       </div>
-      <div class="gal-item" data-src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=90&auto=format" data-cap="Espaço corporativo moderno">
-        <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80&auto=format&fit=crop" alt="Corporativo" loading="lazy">
-        <div class="gal-overlay"><div class="gal-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5l4 4M8 11h6M11 8v6"/></svg></div></div>
+
+      <div class="gal-item">
+        <video class="gal-vid" src="videos/vid3.mp4" muted loop playsinline preload="metadata"
+          poster="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=700&q=80&auto=format&fit=crop"></video>
+        <div class="gal-iris"></div>
+        <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="gal-label">Espaço corporativo</div>
       </div>
-      <div class="gal-item" data-src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=1200&q=90&auto=format" data-cap="Área externa — piscina">
-        <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=700&q=80&auto=format&fit=crop" alt="Obra" loading="lazy">
-        <div class="gal-overlay"><div class="gal-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5l4 4M8 11h6M11 8v6"/></svg></div></div>
+
+      <div class="gal-item">
+        <video class="gal-vid" src="videos/vid4.mp4" muted loop playsinline preload="metadata"
+          poster="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=700&q=80&auto=format&fit=crop"></video>
+        <div class="gal-iris"></div>
+        <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="gal-label">Área externa — piscina</div>
       </div>
-      <div class="gal-item" data-src="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=1200&q=90&auto=format" data-cap="Quarto master premium">
-        <img src="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=700&q=80&auto=format&fit=crop" alt="Estrutura" loading="lazy">
-        <div class="gal-overlay"><div class="gal-zoom"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5l4 4M8 11h6M11 8v6"/></svg></div></div>
+
+      <div class="gal-item">
+        <video class="gal-vid" src="videos/vid5.mp4" muted loop playsinline preload="metadata"
+          poster="https://images.unsplash.com/photo-1615529328331-f8917597711f?w=700&q=80&auto=format&fit=crop"></video>
+        <div class="gal-iris"></div>
+        <div class="gal-hint"><div class="gal-hint-ring"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div></div>
+        <div class="gal-label">Quarto master premium</div>
       </div>
+
     </div>
   </div>
 </section>
 
-<!-- Lightbox -->
-<div id="lb" role="dialog" aria-modal="true">
-  <div class="lb-wrap">
-    <div class="lb-ctr" id="lb-ctr">1 / 5</div>
-    <button class="lb-x" id="lb-x" aria-label="Fechar">✕</button>
-    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Anterior">←</button>
-    <img id="lb-img" src="" alt="">
+<!-- Lightbox removido (substituído por fullscreen de vídeo) -->
+<div id="lb" style="display:none">
+  <img id="lb-img" src="" alt="">
     <button class="lb-btn lb-next" id="lb-next" aria-label="Próximo">→</button>
     <div class="lb-cap" id="lb-cap"></div>
   </div>
@@ -1705,35 +1731,50 @@ if(mt){
   mt.addEventListener('mouseleave',()=>mt.style.animationPlayState='running');
 }
 
-/* ── LIGHTBOX ── */
-const galItems=[...document.querySelectorAll('.gal-item[data-src]')];
-const lb=document.getElementById('lb');
-const lbImg=document.getElementById('lb-img');
-const lbCap=document.getElementById('lb-cap');
-const lbCtr=document.getElementById('lb-ctr');
-let lbIdx=0;
-function openLb(i){
-  lbIdx=i; const it=galItems[i];
-  lbImg.classList.remove('ok');
-  lbImg.src=it.dataset.src;
-  lbImg.alt=it.dataset.cap||'Imagem do projeto';
-  lbImg.onload=()=>lbImg.classList.add('ok');
-  lbCap.textContent=it.dataset.cap||'';
-  lbCtr.textContent=`${i+1} / ${galItems.length}`;
-  lb.classList.add('on'); document.body.style.overflow='hidden';
-}
-function closeLb(){ lb.classList.remove('on'); document.body.style.overflow=''; }
-function navLb(d){ lbIdx=(lbIdx+d+galItems.length)%galItems.length; openLb(lbIdx); }
-galItems.forEach((it,i)=>it.addEventListener('click',()=>openLb(i)));
-document.getElementById('lb-x').addEventListener('click',closeLb);
-document.getElementById('lb-prev').addEventListener('click',()=>navLb(-1));
-document.getElementById('lb-next').addEventListener('click',()=>navLb(1));
-lb.addEventListener('click',e=>{ if(e.target===lb) closeLb(); });
-document.addEventListener('keydown',e=>{
-  if(!lb.classList.contains('on')) return;
-  if(e.key==='ArrowLeft') navLb(-1);
-  if(e.key==='ArrowRight') navLb(1);
-});
+/* ── VIDEO GALLERY ── */
+(function(){
+  const items = document.querySelectorAll('.gal-item');
+  const mobile = () => window.innerWidth <= 768;
+
+  /* Desktop: hover → play / mouseleave → pause + reset */
+  items.forEach(item => {
+    const vid = item.querySelector('.gal-vid');
+    if (!vid) return;
+
+    item.addEventListener('mouseenter', () => {
+      if (mobile()) return;
+      vid.play().catch(() => {});
+    });
+    item.addEventListener('mouseleave', () => {
+      if (mobile()) return;
+      vid.pause();
+      vid.currentTime = 0;
+    });
+
+    /* Clique → fullscreen do vídeo */
+    item.addEventListener('click', () => {
+      if (vid.requestFullscreen) vid.requestFullscreen();
+      else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
+      else if (vid.webkitRequestFullscreen) vid.webkitRequestFullscreen();
+    });
+  });
+
+  /* Mobile: IntersectionObserver → play ao entrar na tela */
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const vid = entry.target.querySelector('.gal-vid');
+        if (!vid) return;
+        if (entry.isIntersecting && mobile()) {
+          vid.play().catch(() => {});
+        } else if (!entry.isIntersecting && mobile()) {
+          vid.pause();
+        }
+      });
+    }, { threshold: 0.35 });
+    items.forEach(item => obs.observe(item));
+  }
+})();
 
 /* ── FORM ── */
 document.getElementById('cform').addEventListener('submit',function(e){
