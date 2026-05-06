@@ -20,3 +20,8 @@ desktop.ini
 
 # Vercel CLI
 .vercel/
+node_modules/
+extract_js.js
+optimize-videos.js
+refactor.ps1
+fix_main.js
