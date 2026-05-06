@@ -334,8 +334,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a=>{
       desc:'Edifício corporativo projetado para empresas de tecnologia, com infraestrutura de dados, energia redundante, espaços colaborativos e certificação sustentável.',
       specs:[{l:'Segmento',v:'Corporativo'},{l:'Localização',v:'Zona Leste — SP'},{l:'Diferencial',v:'Smart building'},{l:'Certificação',v:'Sustentável'}]
     }
-  ,{l:'Localização',v:'São Paulo — SP'},{l:'Escopo',v:'Execução'},{l:'Operação',v:'24h · 7 dias'}]
-    }
   ];
 
   const lb=document.getElementById('lb');
